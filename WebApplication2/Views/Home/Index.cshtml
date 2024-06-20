@@ -1,0 +1,74 @@
+﻿@model WebAppPort.Entities.MainModel.MainModel
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+
+<section class="home-slider js-fullheight owl-carousel bg-white">
+    @foreach (var item in Model.mainModels)
+    {
+        <div class="slider-item js-fullheight">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
+                    <div class="one-third order-md-last img js-fullheight" style="background-image:url(@item.image);">
+                        <h3 class="vr">@item.Header</h3>
+                    </div>
+                    <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+                        <div class="text">
+                            <h1 class="mb-4">@item.SubHeader</h1>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                            @*<p><a href="#" class="btn btn-primary px-4 py-3 mt-3">View our works</a></p>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="slider-item js-fullheight">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row d-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
+                    <div class="one-third order-md-last img js-fullheight" style="background-image:url(images/bg_2.jpg);">
+                        <h3 class="vr">Since - 2018</h3>
+                    </div>
+                    <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+                        <div class="text">
+                            <h1 class="mb-4">We Create Amazing Architecture Designs</h1>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>-->
+        @* <p><a href="#" class="btn btn-primary px-4 py-3 mt-3">View our works</a></p>*@
+        <!--</div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    }
+</section>
+
+<section class="ftco-section ftc-no-pb">
+    @foreach (var item in Model.abouts)
+    {
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-md-5 p-md-5 img img-2" style="background-image: url(@item.image);">
+                </div>
+                <div class="col-md-7 wrap-about pb-md-5 ftco-animate">
+                    <div class="heading-section mb-5 pl-md-5">
+                        <div class="pl-md-5 ml-md-5">
+                            <span class="subheading subheading-with-line"><small class="pr-2 bg-white">@item.Header</small></span>
+                            <h2 class="mb-4">@item.Subheader</h2>
+                        </div>
+                    </div>
+                    <div class="pl-md-5 ml-md-5 mb-5">
+                        @foreach (var itemdes in item.Description)
+                        {
+                            <p>@itemdes</p>
+                        }
+                        <p><a href="#" class="btn-custom">Learn More <span class="ion-ios-arrow-forward"></span></a></p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
