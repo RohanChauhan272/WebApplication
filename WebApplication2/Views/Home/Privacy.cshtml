@@ -1,6 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿
+@{ ViewData["Title"] = "Upload Image"; }
 
-<p>Use this page to detail your site's privacy policy.</p>
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="imageFile">Choose Image File:</label>
+        <input type="file" class="form-control-file" id="imageFile" name="imageFile">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload Image</button>
+</form>
+
+@if (Model.UploadStatusMessage != null)
+{
+<div class="alert alert-info mt-3">
+    @Model.UploadStatusMessage
+</div>}

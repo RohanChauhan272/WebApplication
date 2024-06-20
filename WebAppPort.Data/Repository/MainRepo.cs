@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
 using WebAppPort.Data.IRepository;
 using WebAppPort.Entities.MainModel;
 
@@ -8,44 +12,80 @@ namespace WebAppPort.Data.Repository
 {
     public class MainRepo : IMainRepo
     {
+        private readonly string _connectionString;
+
+        public MainRepo(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
         public MainModel GetMainData()
         {
             try
             {
+                List<Main> users = new List<Main>();
+                List<Project> Project = new List<Project>();
                 MainModel mainData = new MainModel();
 
-                List<Main> main = new List<Main>
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    new Main { Header = "Architecture Firm",
-                    SubHeader = "We Love",
-                    image = "imgIndu/bg_1.jpg",
-                    Description="A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth."
-                    },
-                    new Main {
-                        Header="Since-2024",
-                        SubHeader = "We Create Amazing Architecture Designs",
-                    Description = "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.",
-                    image = "imgIndu/bg_2.jpg" },
-                    new Main {
-                        Header="Since-We make",
-                        SubHeader = "We Make Some Changes",
-                    Description = "We Love We Create Amazing Architecture Designs A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.",
-                    image = "imgIndu/bg_3.jpg" }
-                };
+                    string sqlQuery = "sp_getIndustriesData"; // Name of your stored procedure
 
-                List<About> about = new List<About>
-                {
-                    new About { Header = "Architecture Firm",
-                    Subheader = "We Love",
-                    image = "images/bg_1.jpg",
-                    Description=new List<string>{
-                         "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.",
-                         "jfasjkdfasjkdfhasjkfhjkashdfjkashfjk"
-                     }
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Main user = new Main
+                                {
+                                    IndustryTitle = reader["IndustryTitle"].ToString(),
+                                    ImageName = reader["ImageName"].ToString(),
+                                    Description = reader["Description"].ToString(),
+                                    ImageData = (byte[])reader["ImageData"]
+                                    // Populate other properties as needed
+                                };
+
+                                users.Add(user);
+                            }
+                        }
                     }
-                };
+                }
 
-                mainData =new MainModel { mainModels = main, abouts = about };
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    string sqlQuery = "sp_getIndustriesProjectData"; // Name of your stored procedure
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Project user = new Project
+                                {
+                                    ProjectTitle = reader["ProjectTitle"].ToString(),
+                                    ProjectImageName = reader["ProjectImageName"].ToString(),
+                                    ProjectDescription = reader["ProjectDescription"].ToString(),
+                                    ProjectImageData = (byte[])reader["ProjectImageData"]
+                                    // Populate other properties as needed
+                                };
+
+                                Project.Add(user);
+                            }
+                        }
+                    }
+                }
+
+                mainData = new MainModel { mainModels = users, projects = Project };
+
                 return mainData;
             }
             catch (Exception ex)
@@ -53,5 +93,102 @@ namespace WebAppPort.Data.Repository
                 throw new NotImplementedException(ex.Message);
             }
         }
+
+
+        public MainAboutModel GetAboutMainData()
+        {
+            try
+            {
+                List<About> users = new List<About>();
+                List<About> aboutDet = new List<About>();
+                MainAboutModel mainData = new MainAboutModel();
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    string sqlQuery = "sp_getIndustriesAboutData"; // Name of your stored procedure
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                About user = new About
+                                {
+                                    AboutTitle = reader["AboutTitle"].ToString(),
+                                    AboutImageName = reader["AboutImageName"].ToString(),
+                                    AboutDescription = reader["AboutDescription"].ToString(),
+                                    AboutImageData = (byte[])reader["AboutImageData"]
+                                    // Populate other properties as needed
+                                };
+
+                                users.Add(user);
+                            }
+                            
+                        }
+                    }
+                }
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    string sqlQuery = "sp_getIndustriesAboutDetData"; // Name of your stored procedure
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                About user = new About
+                                {
+                                    AboutTitle = reader["AboutTitle"].ToString(),
+                                    AboutDescription = reader["AboutDescription"].ToString()
+                                };
+
+                                aboutDet.Add(user);
+                            }
+
+                        }
+                    }
+                }
+
+                mainData = new MainAboutModel { about = users, aboutdet = aboutDet };
+
+                return mainData;
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+    
+        public void SaveImageToDatabase(string imageName, byte[] imageData)
+        {
+            string connectionString = _connectionString; // Replace with your actual SQL Server connection string
+            string insertSql = "INSERT INTO IndustriesAboutMst (AboutImageName, AboutImageData) VALUES (@ImageName, @ImageData)";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(insertSql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@ImageName", imageName);
+                    cmd.Parameters.AddWithValue("@ImageData", imageData);
+
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+
     }
 }

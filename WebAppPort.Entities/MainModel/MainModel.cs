@@ -8,23 +8,40 @@ namespace WebAppPort.Entities.MainModel
     public class MainModel
     {
         public List<Main> mainModels { get; set; }
-        public List<About> abouts { get; set; }
+        public List<Project> projects { get; set; }
+    }
+
+    public class MainAboutModel
+    {
+        public List<About> about { get; set; }
+        public List<About> aboutdet { get; set; }
     }
 
     public class Main
     {
-        public string Header { get; set; }
-        public string SubHeader { get; set; }
+        public string IndustryTitle { get; set; }
+        public string ImageName { get; set; }
+
+        public byte[] ImageData { get; set; }
         public string Description { get; set; }
-        public string image { get; set; }
+    }
+
+    public class Project
+    {
+        public string ProjectTitle { get; set; }
+        public string ProjectImageName { get; set; }
+
+        public byte[] ProjectImageData { get; set; }
+        public string ProjectDescription { get; set; }
     }
 
     public class About
     {
-        public string Header { get; set; }
-        public string Subheader { get; set; }
-        public List<string> Description { get; set; }
-        public string image { get; set; }
+        public string AboutTitle { get; set; }
+        public string AboutImageName { get; set; }
+
+        public byte[] AboutImageData { get; set; }
+        public string AboutDescription { get; set; }
     }
 
     public class ContactViewModel
