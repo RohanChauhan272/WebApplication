@@ -17,29 +17,29 @@
     <div class="container">
         @foreach (var item in Model.about)
         {
-<div class="row no-gutters">
+            <div class="row no-gutters">
 
-    <div class="col-md-5 p-md-5 img img-2" style="background-image: url('data:image/jpeg;base64,@Convert.ToBase64String(item.AboutImageData)')">
-    </div>
-    <div class="col-md-7 wrap-about pb-md-5 ftco-animate">
-        <div class="heading-section mb-5 pl-md-5">
-            <div class="pl-md-5 ml-md-5">
-                <span class="subheading subheading-with-line"><small class="pr-2 bg-white"></small></span>
-                <h2 class="mb-4">@item.AboutTitle</h2>
-            </div>
-        </div>
-        <div class="pl-md-5 ml-md-5 mb-5">
-            @item.AboutDescription
-        </div>
-    </div>
-</div>}
+                <div class="col-md-5 p-md-5 img img-2" style="background-image: url('data:image/jpeg;base64,@Convert.ToBase64String(item.AboutImageData)')">
+                </div>
+                <div class="col-md-7 wrap-about pb-md-5 ftco-animate">
+                    <div class="heading-section mb-5 pl-md-5">
+                        <div class="pl-md-5 ml-md-5">
+                            <span class="subheading subheading-with-line"><small class="pr-2 bg-white"></small></span>
+                            <h2 class="mb-4">@item.AboutTitle</h2>
+                        </div>
+                    </div>
+                    <div class="pl-md-5 ml-md-5 mb-5">
+                        @item.AboutDescription
+                    </div>
+                </div>
+            </div>}
         <div class="row mt-5 pt-4">
             @foreach (var item in Model.aboutdet)
             {
-            <div class="col-md-4 ftco-animate">
-                <h3 class="h4">@item.AboutTitle</h3>
-                <p>@item.AboutDescription</p>
-            </div>            
+                <div class="col-md-4 ftco-animate">
+                    <h3 class="h4">@item.AboutTitle</h3>
+                    <p>@item.AboutDescription</p>
+                </div>
             }
         </div>
     </div>
@@ -47,89 +47,26 @@
 
 <section class="ftco-section testimony-section bg-light">
     <div class="container">
+        <h2 style="font-weight: 700; font-size: 3rem; text-align: center;">Our Teams</h2>
         <div class="row ftco-animate">
             <div class="col-md-12">
                 <div class="carousel-testimony owl-carousel">
-                    <div class="item">
-                        <div class="testimony-wrap p-4 pb-5">
-                            <div class="user-img mb-5" style="background-image: url('/images/person_1.jpg')">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text">
-                                <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <div class="pl-5">
-                                    <p class="name">Garreth Smith</p>
-                                    <span class="position">CEO Founder of Commercial Building</span>
+                    @foreach (var item in Model.TeamDet)
+                    {
+                        <div class="item">
+                            <div class="testimony-wrap p-4 pb-5">
+
+                                <div class="text">
+                                    <div class="pl-5">
+                                        <p class="name">@item.TeamName</p>
+                                        <span class="position">@item.TeamPosition</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimony-wrap p-4 pb-5">
-                            <div class="user-img mb-5" style="background-image: url('/images/person_2.jpg')">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text">
-                                <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <div class="pl-5">
-                                    <p class="name">Garreth Smith</p>
-                                    <span class="position">CEO Founder of Interior Design</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimony-wrap p-4 pb-5">
-                            <div class="user-img mb-5" style="background-image: url('/images/person_3.jpg')">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text">
-                                <p class="mb-5 pl-4 line">behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <div class="pl-5">
-                                    <p class="name">Garreth Smith</p>
-                                    <span class="position">Exterior Designer</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimony-wrap p-4 pb-5">
-                            <div class="user-img mb-5" style="background-image: url('/images/person_1.jpg')">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text">
-                                <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <div class="pl-5">
-                                    <p class="name">Garreth Smith</p>
-                                    <span class="position">Landscape Designer</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimony-wrap p-4 pb-5">
-                            <div class="user-img mb-5" style="background-image: url('/images/bg_1.jpg');">
-                                <span class="quote d-flex align-items-center justify-content-center">
-                                    <i class="icon-quote-left"></i>
-                                </span>
-                            </div>
-                            <div class="text">
-                                <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <div class="pl-5">
-                                    <p class="name">Garreth Smith</p>
-                                    <span class="position">System Analyst</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                    }
+
                 </div>
             </div>
         </div>

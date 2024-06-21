@@ -11,12 +11,29 @@ namespace WebAppPort.Entities.MainModel
         public List<Project> projects { get; set; }
     }
 
+    public class MainServiceModel
+    {
+        public List<Service> mainService { get; set; }
+    }
+
     public class MainAboutModel
     {
         public List<About> about { get; set; }
-        public List<About> aboutdet { get; set; }
+        public List<About> aboutdet { get; set; } 
+        public List<Team> TeamDet { get; set; }
     }
 
+    public class Team
+    {
+        public string TeamName { get; set; }
+        public string TeamPosition { get; set; }
+    }
+    
+    public class Service
+    {
+        public string ServiceTitle { get; set; }
+        public string ServiceDescription { get; set; }
+    }
     public class Main
     {
         public string IndustryTitle { get; set; }

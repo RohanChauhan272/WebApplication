@@ -10,6 +10,8 @@ namespace WebAppPort.Data.IRepository
     {
         MainModel GetMainData();
         MainAboutModel GetAboutMainData();
+
+        MainServiceModel GetServiceMainData();
         void SaveImageToDatabase(string imageName, byte[] imageData);
     }
 }

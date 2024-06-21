@@ -101,6 +101,7 @@ namespace WebAppPort.Data.Repository
             {
                 List<About> users = new List<About>();
                 List<About> aboutDet = new List<About>();
+                List<Team> teams = new List<Team>();
                 MainAboutModel mainData = new MainAboutModel();
 
                 using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -161,7 +162,35 @@ namespace WebAppPort.Data.Repository
                     }
                 }
 
-                mainData = new MainAboutModel { about = users, aboutdet = aboutDet };
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    string sqlQuery = "sp_getIndustriesTeamData"; // Name of your stored procedure
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                Team user = new Team
+                                {
+                                    TeamName = reader["TeamName"].ToString(),
+                                    TeamPosition = reader["TeamPosition"].ToString()
+                                };
+
+                                teams.Add(user);
+                            }
+
+                        }
+                    }
+                }
+
+                mainData = new MainAboutModel { about = users, aboutdet = aboutDet,TeamDet=teams };
 
                 return mainData;
             }
@@ -170,7 +199,53 @@ namespace WebAppPort.Data.Repository
                 throw new NotImplementedException(ex.Message);
             }
         }
-    
+
+        public MainServiceModel GetServiceMainData()
+        {
+            try
+            {
+                List<Service> users = new List<Service>();
+                MainServiceModel mainData = new MainServiceModel();
+
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    string sqlQuery = "sp_getIndustriesServiceData"; // Name of your stored procedure
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                Service user = new Service
+                                {
+                                    ServiceTitle = reader["ServiceTitle"].ToString(),
+                                    ServiceDescription = reader["ServiceDescription"].ToString()
+                                };
+
+                                users.Add(user);
+                            }
+
+                        }
+                    }
+                }
+
+                mainData = new MainServiceModel { mainService = users };
+
+                return mainData;
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
         public void SaveImageToDatabase(string imageName, byte[] imageData)
         {
             string connectionString = _connectionString; // Replace with your actual SQL Server connection string
