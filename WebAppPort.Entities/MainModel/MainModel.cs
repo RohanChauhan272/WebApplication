@@ -11,12 +11,29 @@ namespace WebAppPort.Entities.MainModel
         public List<Project> projects { get; set; }
     }
 
+    public class MainServiceModel
+    {
+        public List<Service> mainService { get; set; }
+    }
+
     public class MainAboutModel
     {
         public List<About> about { get; set; }
-        public List<About> aboutdet { get; set; }
+        public List<About> aboutdet { get; set; } 
+        public List<Team> TeamDet { get; set; }
     }
 
+    public class Team
+    {
+        public string TeamName { get; set; }
+        public string TeamPosition { get; set; }
+    }
+    
+    public class Service
+    {
+        public string ServiceTitle { get; set; }
+        public string ServiceDescription { get; set; }
+    }
     public class Main
     {
         public string IndustryTitle { get; set; }
@@ -44,6 +61,12 @@ namespace WebAppPort.Entities.MainModel
         public string AboutDescription { get; set; }
     }
 
+    public class ContactDet
+    {
+        public ContactViewModel contactView { get; set; }
+        public ContactDetail contactDetail { get; set; }
+    }
+
     public class ContactViewModel
     {
         [Required(ErrorMessage = "Please enter your name.")]
@@ -67,6 +90,18 @@ namespace WebAppPort.Entities.MainModel
         public string Username { get; set; }
         public string Password { get; set; }
         public bool EnableSsl { get; set; }
+    }
+    public class ContactDetail
+    {
+        public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public string Address { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Website { get; set; }
     }
 
 }

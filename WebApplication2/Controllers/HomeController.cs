@@ -30,14 +30,28 @@ namespace WebApplication2.Controllers
 
         public IActionResult Index()
         {
-            var GetAllData = _main.GetMainData();
-            return View(GetAllData);
+            try
+            {
+                var GetAllData = _main.GetMainData();
+                return View(GetAllData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public IActionResult About()
         {
-            var GetAllAboutData = _main.GetAboutMainData();
-            return View(GetAllAboutData);
+            try
+            {
+                var GetAllAboutData = _main.GetAboutMainData();
+                return View(GetAllAboutData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public IActionResult Privacy()
         {
@@ -46,19 +60,21 @@ namespace WebApplication2.Controllers
 
         public IActionResult Contact()
         {
-            return View();
+            var GetContactData = _main.GetContactData();
+            return View(GetContactData);
         }
 
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> sendMail(ContactViewModel contactView)
+        public async Task<IActionResult> sendMail(ContactDet contact)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    ContactViewModel contactView = contact.contactView;
                     await _emailService.SendEmailAsync(contactView.Email, contactView.Subject, $"From: {contactView.Name}\n\n{contactView.Message}");
                     return RedirectToAction("Contact");
                 }
@@ -73,29 +89,18 @@ namespace WebApplication2.Controllers
             }
         }
 
-
-       
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Services()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public byte[] ImageToByteArray(string imagePath)
-        {
-            byte[] imageData = null;
-
-            using (FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+            try
             {
-                using (BinaryReader br = new BinaryReader(fs))
-                {
-                    imageData = br.ReadBytes((int)fs.Length);
-                }
+                var GetAllServiceData = _main.GetServiceMainData();
+                return View(GetAllServiceData);
             }
-
-            return imageData;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        
     }
 }
