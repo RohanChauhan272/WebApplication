@@ -20,20 +20,33 @@ namespace WebAppPort.Data.Repository
 
         public async Task SendEmailAsync(string toAddress, string subject, string body)
         {
-            using (var client = new SmtpClient(_smtpSettings.Server, _smtpSettings.Port))
+
+            if (String.IsNullOrEmpty(toAddress))
+                return;
+            try
             {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password);
-                client.EnableSsl = _smtpSettings.EnableSsl;
+                MailMessage mail = new MailMessage();
+                mail.To.Add(toAddress);
+                mail.From = new MailAddress($"test1278968@gmail.com");
+                mail.Subject = "subject";
 
-                var message = new MailMessage();
-                message.To.Add(new MailAddress(toAddress));
-                message.From = new MailAddress(_smtpSettings.Username);
-                message.Subject = subject;
-                message.Body = body;
-                message.IsBodyHtml = true;
+                mail.Body = body;
 
-                await client.SendMailAsync(message);
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com"; //Or Your SMTP Server Address
+                smtp.UseDefaultCredentials = false;
+                //smtp.Credentials = new NetworkCredential("demo.mailer272@gmail.com", "gawf kqzc zupr cogn"); // ***use valid credentials***
+                smtp.Credentials = new NetworkCredential("test1278968@gmail.com", "eybt dkwr gesp fvri"); //sakshi credentials
+                smtp.Port = 587;
+
+                //Or your Smtp Email ID and Password
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

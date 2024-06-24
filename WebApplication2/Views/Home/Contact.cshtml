@@ -1,4 +1,4 @@
-﻿@model WebAppPort.Entities.MainModel.ContactViewModel
+﻿@model WebAppPort.Entities.MainModel.ContactDet
 @{ ViewData["Title"] = "Contact Page"; }
 
 <!DOCTYPE html>
@@ -29,22 +29,16 @@
                 </div>
                 <div class="w-100"></div>
                 <div class="col-md-3">
-                    <p>
-                        <span>Address : </span><b>Akash Narayan
-                            Director,NARA GROUP + NARA  ARC
-                            NZIA Graduate Member
-                            BAS, MArch Prof. (Hons) - University of Auckland
-                        </b>
-                    </p>
+                    <p><span>Address : </span><b style="font-weight: bold;">@Model.contactDetail.Address</b></p>
                 </div>
                 <div class="col-md-3">
-                    <p><span>Phone: </span> <a href="tel://0212361327"><b>+021 236 1327</b></a></p>
+                    <p><span>Phone: </span> <a href="tel://0212361327"><b style="font-weight: bold;">@Model.contactDetail.PhoneNumber</b></a></p>
                 </div>
                 <div class="col-md-3">
-                    <p><span>Email: </span> <a href="mailto:akash.a.narayan@gmail.com"><b>akash.a.narayan@gmail.com</b></a></p>
+                    <p><span>Email: </span> <a href="mailto:akash.a.narayan@gmail.com"><b style="font-weight: bold;">@Model.contactDetail.Email</b></a></p>
                 </div>
                 <div class="col-md-3">
-                    <p><span>Website : </span> <a href="www.naragroup.co.nz"><b>www.naragroup.co.nz</b></a></p>
+                    <p><span>Website : </span> <a href="www.naragroup.co.nz"><b style="font-weight: bold;">@Model.contactDetail.Website</b></a></p>
                 </div>
             </div>
         </div>
@@ -56,31 +50,31 @@
                     @using (Html.BeginForm("sendMail", "Home", FormMethod.Post))
                     {
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Name)
-                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "txtName" })
-                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.contactView.Name)
+                            @Html.TextBoxFor(model => model.contactView.Name, new { @class = "form-control", @id = "txtName" })
+                            @Html.ValidationMessageFor(model => model.contactView.Name, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Email)
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "txtEmail" })
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.contactView.Email)
+                            @Html.TextBoxFor(model => model.contactView.Email, new { @class = "form-control", @id = "txtEmail" })
+                            @Html.ValidationMessageFor(model => model.contactView.Email, "", new { @class = "text-danger" })
                         </div>
 
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Subject)
-                                            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control", @id = "txtSubject" })
-                                            @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
-                                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.contactView.Subject)
+                            @Html.TextBoxFor(model => model.contactView.Subject, new { @class = "form-control", @id = "txtSubject" })
+                            @Html.ValidationMessageFor(model => model.contactView.Subject, "", new { @class = "text-danger" })
+                        </div>
 
-                                                        <div class="form-group">
-                                                            @Html.LabelFor(model => model.Message)
-                                                            @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @id = "txtMessage" })
-                                                            @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
-                                                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.contactView.Message)
+                            @Html.TextAreaFor(model => model.contactView.Message, new { @class = "form-control", @id = "txtMessage" })
+                            @Html.ValidationMessageFor(model => model.contactView.Message, "", new { @class = "text-danger" })
+                        </div>
 
-                                                                        <button type="submit" id="SubmitSendMail" class="btn btn-primary py-3 px-5">Send Message</button>
-                  }
+                        <button type="submit" id="SubmitSendMail" class="btn btn-primary py-3 px-5">Send Message</button>
+                    }
 
                     <div id="messageSent" style="display: none;color:green">Message Sent Successfully!</div>
                     <div id="errorMessage" style="display: none;color:red">Error Sending Message. Please try again later.</div>

@@ -265,5 +265,51 @@ namespace WebAppPort.Data.Repository
             }
         }
 
+        public ContactDet GetContactData()
+        {
+            try
+            {
+                ContactDetail user = new ContactDetail();
+                ContactDet mainData = new ContactDet();
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    string sqlQuery = "sp_getIndustriesContactData"; // Name of your stored procedure
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                user = new ContactDetail
+                                {
+                                    Name = reader["Name"].ToString(),
+                                    Email = reader["Email"].ToString(),
+                                    Address = reader["Address"].ToString(),
+                                    PhoneNumber = reader["PhoneNumber"].ToString(),
+                                    Website = reader["Website"].ToString()
+                                    // Populate other properties as needed
+                                };
+                                mainData = new ContactDet { contactDetail = user };
+
+                                return mainData;
+                            }
+
+                        }
+                    }
+                    return mainData;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

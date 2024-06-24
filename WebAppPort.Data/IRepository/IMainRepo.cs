@@ -13,5 +13,6 @@ namespace WebAppPort.Data.IRepository
 
         MainServiceModel GetServiceMainData();
         void SaveImageToDatabase(string imageName, byte[] imageData);
+        ContactDet GetContactData();
     }
 }

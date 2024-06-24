@@ -60,7 +60,33 @@ namespace WebApplication2.Controllers
 
         public IActionResult Contact()
         {
-            return View();
+            var GetContactData = _main.GetContactData();
+            return View(GetContactData);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> sendMail(ContactDet contact)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ContactViewModel contactView = contact.contactView;
+                    await _emailService.SendEmailAsync(contactView.Email, contactView.Subject, $"From: {contactView.Name}\n\n{contactView.Message}");
+                    return RedirectToAction("Contact");
+                }
+                else
+                {
+                    return BadRequest("Error While Sending Mail");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         public IActionResult Services()
