@@ -11,5 +11,6 @@ namespace WebAppPort.Data.IRepository
         MainModel GetMainData();
         MainAboutModel GetAboutMainData();
         void SaveImageToDatabase(string imageName, byte[] imageData);
+        ContactDet GetContactData();
     }
 }

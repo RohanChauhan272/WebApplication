@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using WebApplication2.Models;
 using WebAppPort.Data.IRepository;
@@ -30,8 +32,9 @@ namespace WebApplication2.Controllers
 
         public IActionResult Index()
         {
-            var GetAllData = _main.GetMainData();
-            return View(GetAllData);
+            //var GetAllData = _main.GetMainData();
+            //return View(GetAllData);
+            return View();
         }
 
         public IActionResult About()
@@ -46,19 +49,21 @@ namespace WebApplication2.Controllers
 
         public IActionResult Contact()
         {
-            return View();
+            var GetContactData = _main.GetContactData();
+            return View(GetContactData);
         }
 
 
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> sendMail(ContactViewModel contactView)
+        public async Task<IActionResult> sendMail(ContactDet contact)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    ContactViewModel contactView = contact.contactView;
                     await _emailService.SendEmailAsync(contactView.Email, contactView.Subject, $"From: {contactView.Name}\n\n{contactView.Message}");
                     return RedirectToAction("Contact");
                 }

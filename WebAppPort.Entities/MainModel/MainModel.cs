@@ -44,6 +44,12 @@ namespace WebAppPort.Entities.MainModel
         public string AboutDescription { get; set; }
     }
 
+    public class ContactDet
+    {
+        public ContactViewModel contactView { get; set; }
+        public ContactDetail contactDetail { get; set; }
+    }
+
     public class ContactViewModel
     {
         [Required(ErrorMessage = "Please enter your name.")]
@@ -68,5 +74,16 @@ namespace WebAppPort.Entities.MainModel
         public string Password { get; set; }
         public bool EnableSsl { get; set; }
     }
+    public class ContactDetail
+    {
+        public string Name { get; set; }
 
+        public string Email { get; set; }
+
+        public string Address { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Website { get; set; }
+    }
 }
